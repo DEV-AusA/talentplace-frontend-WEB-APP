@@ -1,36 +1,18 @@
 import { Button, Card, Col, Nav, Row } from "react-bootstrap"
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ProjectList.css";
-import { useUserContext } from "../../context/UserProvider";
-import axios from "axios";
 import formatDateLocal from "../../utils/formatDateLocal";
 import { AiOutlineMail } from "react-icons/ai";
 import { GoEye } from "react-icons/go";
 import { LuPencilLine } from "react-icons/lu";
-
-const BACKEND_ENDPOINT = import.meta.env.VITE_BACKEND_URL;
+import { useAllProjectsByUserId } from "../../hooks/useAllProjectsByUserId";
+import Loading from "../../pages/shared/Loading";
 
 export const ProjectList = () => {
 
-    const [projects, setProjects] = useState([]);
-    
-    const { setToken } = useUserContext();
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchProjects = async () => {
-          const storedToken = await localStorage.getItem("token");
-          setToken(storedToken);
-    
-          const response = await axios.get(`${BACKEND_ENDPOINT}/projects`, {
-            headers: { Authorization: `Bearer ${storedToken}` },
-          });
-          const projects = response.data;
-    
-          setProjects(projects);
-        };
-    
-        fetchProjects();
-    }, [setToken]);
+    const { projects, loading } = useAllProjectsByUserId();
 
     const stateProjectParse = (boolean) => {
         return boolean ? "Vigente" : "No vigente";
@@ -42,9 +24,15 @@ export const ProjectList = () => {
         return firstLetter + restText;
     }
 
+    const handleEditClick = (projectId) => {
+        navigate(`/dashboard/projects/edit/${projectId}`);
+    }
+
     return(
         <>
-            { projects.length > 0 ? projects.map((project) => (
+            { loading ? (
+                    <div className="loading"><Loading/></div>
+                ) : projects.map((project) => (
                 <Card key={project.id} className="border border-info align-items-start m-3">
                     <Card.Body className="pt-0">
                         <Row>
@@ -153,13 +141,13 @@ export const ProjectList = () => {
                             </Col>
                             <Col lg={3}>
                                 <Nav activeKey="" className="justify-content-lg-end justify-content-center">
-                                    <Nav.Link eventKey="link-event-key">
+                                    <Nav.Link onClick={() => handleEditClick(project.id)}>
                                         <LuPencilLine className="color-purple fs-2"/>                                            
                                     </Nav.Link>
-                                    <Nav.Link eventKey="link-event-key">
+                                    <Nav.Link>
                                         <GoEye className="color-purple fs-2"/>
                                     </Nav.Link>
-                                    <Nav.Link eventKey="link-event-key">
+                                    <Nav.Link>
                                         <AiOutlineMail className="color-purple fs-2"/>                                            
                                     </Nav.Link>                                        
                                 </Nav>
@@ -169,12 +157,6 @@ export const ProjectList = () => {
                     </Card.Body>
                 </Card>
                 ))
-                : (
-                    <Row>
-                        <Card.Title className="fw-bold">
-                            No se encontraron Projectos
-                        </Card.Title>
-                    </Row>)
             }
         </>
     )

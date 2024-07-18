@@ -7,8 +7,7 @@ export const Dashboard = () => {
     return(
         <main className="container-sidebar">
             <Container fluid className="d-flex">
-
-                <Row>
+                <Row className="w-100">
                     <Col md={3} className="d-md-block bg-success">
                         <Sidebar />
                     </Col>
