@@ -14,7 +14,7 @@ export const useAllProjectsByUserId = () => {
         const fetchAllProjects = async () => {
 
             try {
-                const storedToken = await localStorage.getItem("token");
+                const storedToken = localStorage.getItem("token");
                 setToken(storedToken);
           
                 const projects = await fetchAllProjectsByUserId();    
@@ -22,15 +22,13 @@ export const useAllProjectsByUserId = () => {
                 setLoading(false);
                 
             } catch (error) {
-                // setError(error);
-                const errorMessage = error.response.data.message;
-
+                const errorMessage = error.response ? error.response.data.message : error.message;
                 Swal.fire({
                     title: 'Error!',
                     text: errorMessage,
                     icon: 'error',
                     confirmButtonText: 'Volver'
-                })
+                });
             }
         };
     
