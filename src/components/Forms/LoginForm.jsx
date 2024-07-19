@@ -1,18 +1,22 @@
 import React, { useState } from "react";
-import logo from '../../assets/assets-png/2.png';
-import './Form.css';
-import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router-dom';
+import logo from '../../assets/assets-png/2.png';
+import axios from 'axios';
+import './Form.css';
+import { IoEye, IoEyeOff } from "react-icons/io5";
+import { useUserContext } from "../../context/UserProvider";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-
 const LoginForm = () => {
+
+    const { setUser, setToken } = useUserContext();
 
     const [loginData, setLoginData] = useState({
         email: '',
         contrasenia: ''
     });
+    const [inputType, setInputType] = useState("password");
 
 
     const [errors, setErrors] = useState({});
@@ -52,6 +56,10 @@ const LoginForm = () => {
         return newErrors;
     }
 
+    // funcion que cambia el type del input
+    const togglePasswordVisible = () => {
+        setInputType((toogleType) => (toogleType === 'password' ? 'text' : 'password'));
+    }
 
     const navigate = useNavigate();
 
@@ -69,6 +77,15 @@ const LoginForm = () => {
             // Backend connection to send login data
             axios.post(`${BACKEND_URL}/auth/login`, loginData)
                 .then((loginData) => {
+
+                    //logica temporal para guardar el token y los datos del user
+                    const token = loginData.data.refreshToken;
+                    const userInfo = loginData.data.user;
+                    const currentUser = JSON.stringify(userInfo);
+                    setUser(currentUser);
+                    localStorage.setItem("user", currentUser);
+                    setToken(token);
+                    localStorage.setItem("token", token);
 
                     // DONE connected to backend
                     // TODO redirect to dashboard & send data from server
@@ -96,7 +113,7 @@ const LoginForm = () => {
     }
     
     return(
-        <form id="login-form" onSubmit={handleSubmit} className='container-forms container w-50 p-5 my-5'>
+        <form id="login-form" onSubmit={handleSubmit} className='container-forms container p-5 my-5 form-width'>
 
             <div className="container-forms-header row">
                 <h2 className="col-md-10">Ingreso a cuenta</h2>
@@ -117,15 +134,18 @@ const LoginForm = () => {
                     {errors.name && <p style={{color: 'red'}}>{errors.name}</p>}
                 </div>
 
-                <div className="form-group">
+                <div className="form-group form-group-password">
                     <input 
-                        type="password" 
+                        type={inputType}
                         className="form-control p-2 my-3" 
                         name="contrasenia" 
                         placeholder="Password" 
                         value={loginData.contrasenia} 
                         onChange={handleChange}
                     />
+                    <btn className="ioEye" type="button" onClick={togglePasswordVisible}>
+                        {inputType==="password" ? <IoEye /> : <IoEyeOff />}
+                    </btn>
                     {errors.contrasenia && <p style={{color: 'red'}}>{errors.contrasenia}</p>}
                     <small className="form-text text-muted p-2">¿Olvidaste tu contraseña?</small>
                 </div>
@@ -139,6 +159,7 @@ const LoginForm = () => {
                 </div>
             </div>
             <p className="mx-auto w-50 text-center">¿Aún no estás registrado?&nbsp;
+                <br />
                 <NavLink to="/register">
                     <strong>Registrate acá</strong>
                 </NavLink> 
