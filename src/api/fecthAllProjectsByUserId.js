@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const BACKEND_ENDPOINT = import.meta.env.VITE_BACKEND_URL;
 
 export const fetchAllProjectsByUserId = async (userId, storedToken) => {
+    const BACKEND_ENDPOINT = import.meta.env.VITE_BACKEND_URL;
     
     try {
         const response = await axios.get(`${BACKEND_ENDPOINT}/projects/user/${userId}`, {
