@@ -12,11 +12,8 @@ export const Navbar = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const { token, user } = useUserContext();
   const recoverUser = JSON.parse(user)
-  
-console.log(token);
-  const {
-    closeSession
-} = useLoginForm();
+
+  const { closeSession } = useLoginForm();
 
   const toggleNavbar = () => {
     setIsCollapsed(!isCollapsed);
