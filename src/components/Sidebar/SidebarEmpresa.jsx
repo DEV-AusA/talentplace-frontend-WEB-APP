@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import './Sidebar.css';
+import useLoginForm from "../../hooks/useLoginForm";
+import { useUserContext } from "../../context/UserProvider";
 import { NavLink, useLocation } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import './Sidebar.css';
 
 
 /*  IMAGES & LOGOS  */
@@ -16,11 +18,10 @@ import { BsChatDots } from "react-icons/bs";
 import { GoPerson } from "react-icons/go";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { CiMenuBurger } from "react-icons/ci";
-import { useUserContext } from "../../context/UserProvider";
-import useLoginForm from "../../hooks/useLoginForm";
-
+import { IoHomeOutline } from "react-icons/io5";
 
 const SidebarEmpresa = () => {
+    
 
     const { user } = useUserContext();
     const recoverUser = JSON.parse(user);
@@ -64,6 +65,7 @@ const SidebarEmpresa = () => {
                         <NavLink
                         to="/"
                         end
+                        onClick={handleClose}
                         >
                             <img className="sidebar-top-logo" src={TalentplaceLogo} alt="Logo"></img>
                         </NavLink>
@@ -73,20 +75,6 @@ const SidebarEmpresa = () => {
 
 
                     <div className="sidebar-menu d-flex flex-column justify-content-around">
-                        <div className="sidebar-menu-row d-flex justify-content-start">
-                            <NavLink
-                                className={({ isActive }) =>
-                                    `nav-item nav-link d-flex w-100 ${isActive ? "active" : ""}`
-                                }
-                                to="/dashboard"
-                                end
-                            >
-                                <div className="sidebar-menu-icon">
-                                    <LuTable2 size={30} />
-                                </div>
-                                <h4>Dashboard</h4>
-                            </NavLink>
-                        </div>
 
                         <div className="sidebar-menu-row d-flex justify-content-start">
                             <NavLink
@@ -95,6 +83,7 @@ const SidebarEmpresa = () => {
                                 }
                                 to="/dashboard/projects"
                                 end
+                                onClick={handleClose}
                             >
                                 <div className="sidebar-menu-icon">
                                     <AiOutlineProject size={30} />
@@ -108,13 +97,14 @@ const SidebarEmpresa = () => {
                                 className={({ isActive }) =>
                                     `nav-item nav-link d-flex w-100 ${isActive ? "active" : ""}`
                                 }
-                                to="/dashboard/payments"
+                                to="/home"
                                 end
+                                onClick={handleClose}
                             >
                                 <div className="sidebar-menu-icon">
-                                    <PiMoneyWavy size={30} />
+                                    <IoHomeOutline size={30} />
                                 </div>
-                                <h4>Facturacion</h4>
+                                <h4>Home</h4>
                             </NavLink>
                         </div>
 
@@ -125,6 +115,7 @@ const SidebarEmpresa = () => {
                                 }
                                 to="/dashboard/talents"
                                 end
+                                onClick={handleClose}
                             >
                                 <div className="sidebar-menu-icon">
                                     <GoPeople size={30} />
@@ -140,6 +131,7 @@ const SidebarEmpresa = () => {
                                 }
                                 to="/dashboard/projects/new"
                                 end
+                                onClick={handleClose}
                             >
                                 <div className="sidebar-menu-icon">
                                     <MdOutlineUpload size={30} />
@@ -159,6 +151,7 @@ const SidebarEmpresa = () => {
                                 }
                                 to="/dashboard/chat"
                                 end
+                                onClick={handleClose}
                             >
                                 <div className="sidebar-options-icon">
                                     <BsChatDots size={30} />
@@ -173,8 +166,9 @@ const SidebarEmpresa = () => {
                                     `nav-item nav-link d-flex w-100 ${isActive ? "active" : ""}`
                                 }
 
-                                to="/editprofile"
+                                to="/dashboard/editprofile"
                                 end
+                                onClick={handleClose}
                              >
                                 <div className="sidebar-options-icon">
                                     <GoPerson size={30} />
