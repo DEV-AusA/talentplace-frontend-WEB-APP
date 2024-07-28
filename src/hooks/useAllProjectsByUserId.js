@@ -21,7 +21,6 @@ export const useAllProjectsByUserId = () => {
                 const userId = recoverUser.id;
                 const projects = await fetchAllProjectsByUserId(userId, storedToken);
                 setProjects(projects);
-                setLoading(false);
                 
             } catch (error) {
                 const errorMessage = error.response ? error.response.data.message : error.message;
@@ -31,6 +30,9 @@ export const useAllProjectsByUserId = () => {
                     icon: 'error',
                     confirmButtonText: 'Volver'
                 });
+            }
+            finally {
+                setLoading(false);
             }
         };
     

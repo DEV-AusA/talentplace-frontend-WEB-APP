@@ -7,7 +7,6 @@ import useLoginForm from '../../hooks/useLoginForm';
 import Loading from "../../pages/shared/Loading";
 
 
-
 const LoginForm = () => {
 
     const {
@@ -21,8 +20,6 @@ const LoginForm = () => {
         handleSubmit,
     } = useLoginForm();
 
-    console.log(loading);
-    
     return(
         <form id="login-form" onSubmit={handleSubmit} className='container-forms container p-5 my-5 form-width'>
 
@@ -30,7 +27,6 @@ const LoginForm = () => {
                 <h2 className="col-md-10">Ingreso a cuenta</h2>
                 <img src={logo} alt="Logo"></img>
             </div>
-
 
             {loading? 
                 <Loading /> 
@@ -46,7 +42,7 @@ const LoginForm = () => {
                             value={loginData.email} 
                             onChange={handleChange}
                         />
-                        {errors.name && <p style={{color: 'red'}}>{errors.name}</p>}
+                        {errors.email && <p style={{color: 'red'}}>{errors.email}</p>}
                     </div>
 
                     <div className="form-group form-group-password">

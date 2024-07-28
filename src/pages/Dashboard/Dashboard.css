@@ -8,9 +8,9 @@ margin-left: 0;
 
 @media (min-width: 768px) {
     .position-md-fixed {
-      position: fixed;
-      height: 100%;
-      width: 25%;
+        position: fixed;
+        height: 100%;
+        width: 25%;
     }
 }
 
@@ -24,4 +24,5 @@ margin-left: 0;
     .menu-color {
         background-color: #B07CFF;
     }
+
 }

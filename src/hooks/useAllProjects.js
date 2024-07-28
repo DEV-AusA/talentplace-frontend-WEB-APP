@@ -9,11 +9,12 @@ const useAllProjects = () => {
         const loadProjects = async () => {
             try {
                 const data = await fetchAllProjects();
-                console.log(data);
                 setProjects(data);
-                setLoading(false);
             } catch (error) {
                 console.error('Error fetching projects:', error);
+            }
+            finally{
+                setLoading(false);
             }
         };
 
