@@ -5,7 +5,7 @@ import '../../index.css'
 const Filter = () => {
     return (
         <aside className='container-filter'>
-            <div className=" p-3 bg-white container-filter__title">
+            <div className=" p-3 bg-white container-filter__title mx-2">
                 <span className="d-flex align-items-center pl-3 pb-3 fs-5 fw-semibold">Filtrá tu búsqueda</span>
                 <ul className="list-unstyled ps-0">
 
