@@ -29,7 +29,7 @@ jobs:
 
       # comprimir y subir archivos para deploy
       - name: Crear el zip para deploy
-        run: zip -r release.zip node_modules dist package.json package-lock.json
+        run: zip -r release.zip dist package.json package-lock.json
 
       - name: Subir el zip para el deploy job
         uses: actions/upload-artifact@v4
