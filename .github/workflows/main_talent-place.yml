@@ -25,10 +25,13 @@ jobs:
         run: npm install
 
       - name: Build del proyecto
+        env:
+          VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }} # varent de Github actions       
         run: npm run build
 
       # comprimir y subir archivos para deploy
       - name: Crear el zip para deploy
+        # run: zip -r release.zip node_modules dist package.json package-lock.json #solo cuando necesite el node_modules
         run: zip -r release.zip dist package.json package-lock.json
 
       - name: Subir el zip para el deploy job
